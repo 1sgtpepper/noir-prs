@@ -92,7 +92,7 @@
 <a href=#92 id=92 data-nosnippet>92</a>        .get_main_function(context.root_crate_id())
 <a href=#93 id=93 data-nosnippet>93</a>        .unwrap_or_else(|| <span class="macro">panic!</span>(<span class="string">"get_monomorphized: test program contains no 'main' function"</span>));
 <a href=#94 id=94 data-nosnippet>94</a>
-<a href=#95 id=95 data-nosnippet>95</a>    monomorphize(main, <span class="kw-2">&amp;mut </span>context.def_interner, <span class="bool-val">false</span>)
+<a href=#95 id=95 data-nosnippet>95</a>    monomorphize(main, <span class="kw-2">&amp;mut </span>context.def_interner, context.file_manager.as_file_map(), <span class="bool-val">false</span>)
 <a href=#96 id=96 data-nosnippet>96</a>}
 <a href=#97 id=97 data-nosnippet>97</a>
 <a href=#98 id=98 data-nosnippet>98</a><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>has_parser_error(errors: <span class="kw-2">&amp;</span>[CompilationError]) -&gt; bool {
@@ -285,5 +285,13 @@
 <a href=#285 id=285 data-nosnippet>285</a>    <span class="kw">pub const </span>PRINT: <span class="kw-2">&amp;</span>str = <span class="string">"
 <a href=#286 id=286 data-nosnippet>286</a>        #[oracle(print)]
 <a href=#287 id=287 data-nosnippet>287</a>        unconstrained fn print_oracle&lt;T&gt;(with_newline: bool, input: T) {}
-<a href=#288 id=288 data-nosnippet>288</a>    "</span>;
-<a href=#289 id=289 data-nosnippet>289</a>}</code></pre></div></section></main></body></html>
+<a href=#288 id=288 data-nosnippet>288</a>
+<a href=#289 id=289 data-nosnippet>289</a>        unconstrained fn println&lt;T&gt;(input: T) {
+<a href=#290 id=290 data-nosnippet>290</a>            print_unconstrained(true, input);
+<a href=#291 id=291 data-nosnippet>291</a>        }
+<a href=#292 id=292 data-nosnippet>292</a>
+<a href=#293 id=293 data-nosnippet>293</a>        unconstrained fn print_unconstrained&lt;T&gt;(with_newline: bool, input: T) {
+<a href=#294 id=294 data-nosnippet>294</a>            print_oracle(with_newline, input);
+<a href=#295 id=295 data-nosnippet>295</a>        }
+<a href=#296 id=296 data-nosnippet>296</a>    "</span>;
+<a href=#297 id=297 data-nosnippet>297</a>}</code></pre></div></section></main></body></html>
