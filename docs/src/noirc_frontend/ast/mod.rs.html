@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `compiler/noirc_frontend/src/ast/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-84e720fa.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="noirc_frontend" data-themes="" data-resource-suffix="" data-rustdoc-version="1.89.0 (29483883e 2025-08-04)" data-channel="1.89.0" data-search-js="search-92309212.js" data-settings-js="settings-5514c975.js" ><script src="../../../static.files/storage-4e99c027.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-fd3af306.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-32bb7600.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">noirc_frontend/ast/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! The submodules of this module define the various data types required to
-<a href=#2 id=2 data-nosnippet>2</a>//! represent Noir's Ast. Of particular importance are ExpressionKind and Statement
+<a href=#2 id=2 data-nosnippet>2</a>//! represent Noir's Ast. Of particular importance are `ExpressionKind` and Statement
 <a href=#3 id=3 data-nosnippet>3</a>//! which can be found in expression.rs and statement.rs respectively.
 <a href=#4 id=4 data-nosnippet>4</a>//!
 <a href=#5 id=5 data-nosnippet>5</a>//! Noir's Ast is produced by the parser and taken as input to name resolution,
-<a href=#6 id=6 data-nosnippet>6</a>//! where it is converted into the Hir (defined in the hir_def module).
+<a href=#6 id=6 data-nosnippet>6</a>//! where it is converted into the Hir (defined in the `hir_def` module).
 <a href=#7 id=7 data-nosnippet>7</a></span><span class="kw">mod </span>docs;
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">mod </span>enumeration;
 <a href=#9 id=9 data-nosnippet>9</a><span class="kw">mod </span>expression;
@@ -14,9 +14,9 @@
 <a href=#14 id=14 data-nosnippet>14</a><span class="kw">mod </span>type_alias;
 <a href=#15 id=15 data-nosnippet>15</a><span class="kw">mod </span>visitor;
 <a href=#16 id=16 data-nosnippet>16</a>
-<a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>acvm::FieldElement;
-<a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>noirc_errors::Located;
-<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>noirc_errors::Location;
+<a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>noirc_errors::Located;
+<a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>noirc_errors::Location;
+<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>num_bigint::BigInt;
 <a href=#20 id=20 data-nosnippet>20</a><span class="kw">pub use </span>visitor::AttributeTarget;
 <a href=#21 id=21 data-nosnippet>21</a><span class="kw">pub use </span>visitor::Visitor;
 <a href=#22 id=22 data-nosnippet>22</a>
@@ -114,7 +114,7 @@
 <a href=#114 id=114 data-nosnippet>114</a>    }
 <a href=#115 id=115 data-nosnippet>115</a>}
 <a href=#116 id=116 data-nosnippet>116</a>
-<a href=#117 id=117 data-nosnippet>117</a><span class="doccomment">/// The parser parses types as 'UnresolvedType's which
+<a href=#117 id=117 data-nosnippet>117</a><span class="doccomment">/// The parser parses types as '`UnresolvedType`'s which
 <a href=#118 id=118 data-nosnippet>118</a>/// require name resolution to resolve any type names used
 <a href=#119 id=119 data-nosnippet>119</a>/// for structs within, but are otherwise identical to Types.
 <a href=#120 id=120 data-nosnippet>120</a></span><span class="attr">#[derive(Debug, PartialEq, Eq, Clone, Hash)]
@@ -126,7 +126,7 @@
 <a href=#126 id=126 data-nosnippet>126</a>
 <a href=#127 id=127 data-nosnippet>127</a>    Parenthesized(Box&lt;UnresolvedType&gt;),
 <a href=#128 id=128 data-nosnippet>128</a>
-<a href=#129 id=129 data-nosnippet>129</a>    <span class="doccomment">/// A Named UnresolvedType can be a struct type or a type variable
+<a href=#129 id=129 data-nosnippet>129</a>    <span class="doccomment">/// A Named `UnresolvedType` can be a struct type or a type variable
 <a href=#130 id=130 data-nosnippet>130</a>    </span>Named(Path, GenericTypeArgs, <span class="comment">/*is_synthesized*/ </span>bool),
 <a href=#131 id=131 data-nosnippet>131</a>
 <a href=#132 id=132 data-nosnippet>132</a>    <span class="doccomment">/// A Trait as return type or parameter of function, including its generics
@@ -215,13 +215,13 @@
 <a href=#215 id=215 data-nosnippet>215</a>    }
 <a href=#216 id=216 data-nosnippet>216</a>}
 <a href=#217 id=217 data-nosnippet>217</a>
-<a href=#218 id=218 data-nosnippet>218</a><span class="doccomment">/// The precursor to TypeExpression, this is the type that the parser allows
+<a href=#218 id=218 data-nosnippet>218</a><span class="doccomment">/// The precursor to `TypeExpression`, this is the type that the parser allows
 <a href=#219 id=219 data-nosnippet>219</a>/// to be used in the length position of an array type. Only constant integers, variables,
 <a href=#220 id=220 data-nosnippet>220</a>/// and numeric binary operators are allowed here.
 <a href=#221 id=221 data-nosnippet>221</a></span><span class="attr">#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 <a href=#222 id=222 data-nosnippet>222</a></span><span class="kw">pub enum </span>UnresolvedTypeExpression {
 <a href=#223 id=223 data-nosnippet>223</a>    Variable(Path),
-<a href=#224 id=224 data-nosnippet>224</a>    Constant(FieldElement, <span class="prelude-ty">Option</span>&lt;IntegerTypeSuffix&gt;, Location),
+<a href=#224 id=224 data-nosnippet>224</a>    Constant(BigInt, <span class="prelude-ty">Option</span>&lt;IntegerTypeSuffix&gt;, Location),
 <a href=#225 id=225 data-nosnippet>225</a>    BinaryOperation(
 <a href=#226 id=226 data-nosnippet>226</a>        Box&lt;UnresolvedTypeExpression&gt;,
 <a href=#227 id=227 data-nosnippet>227</a>        BinaryTypeOperator,
@@ -528,7 +528,7 @@
 <a href=#528 id=528 data-nosnippet>528</a>        <span class="kw">match </span><span class="self">self </span>{
 <a href=#529 id=529 data-nosnippet>529</a>            UnresolvedTypeExpression::Variable(path) =&gt; ExpressionKind::Variable(path.clone()),
 <a href=#530 id=530 data-nosnippet>530</a>            UnresolvedTypeExpression::Constant(int, suffix, <span class="kw">_</span>) =&gt; {
-<a href=#531 id=531 data-nosnippet>531</a>                ExpressionKind::Literal(Literal::Integer(<span class="kw-2">*</span>int, <span class="kw-2">*</span>suffix))
+<a href=#531 id=531 data-nosnippet>531</a>                ExpressionKind::Literal(Literal::Integer(int.clone(), <span class="kw-2">*</span>suffix))
 <a href=#532 id=532 data-nosnippet>532</a>            }
 <a href=#533 id=533 data-nosnippet>533</a>            UnresolvedTypeExpression::BinaryOperation(lhs, op, rhs, location) =&gt; {
 <a href=#534 id=534 data-nosnippet>534</a>                ExpressionKind::Infix(Box::new(InfixExpression {
